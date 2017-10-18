@@ -12,7 +12,10 @@ const server = http.createServer((req, res) => {
 	res.setHeader('Content-Type', 'text/plain');
 	res.end('Blaaah!\n');
 
-	console.log(url.parse(req.url).pathname);
+	path = url.parse(req.url).pathname
+	requested_data = path.replace('/','')
+
+	console.log("Requested data:", requested_data);
 });
 
 server.listen(port, hostname, () => {
