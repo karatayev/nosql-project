@@ -10,12 +10,19 @@ const port = 1337;
 const server = http.createServer((req, res) => {
 	res.statusCode = 200;
 	res.setHeader('Content-Type', 'text/plain');
-	res.end('Blaaah!\n');
+
 
 	path = url.parse(req.url).pathname
 	requested_data = path.replace('/','')
 
 	console.log("Requested data:", requested_data);
+
+	client.get(requested_data, function(err, reply) {
+	    // reply is null when the key is missing
+	    console.log(reply);
+			res.end(reply+"\n");
+	});
+
 });
 
 server.listen(port, hostname, () => {
