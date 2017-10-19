@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 const http = require('http'), url = require('url');
+const express = require('express');
+const app = express();
 const redis = require('redis');
 const client = redis.createClient();
 
