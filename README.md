@@ -1,5 +1,10 @@
-# nosql-project
-blyat
+## Directory structure
 
-Start redis Server:
-src/redis-server
+`tls/` self signed key and crt files used for https
+`public/` static html pages
+`access.db` sqlite database with login credentials
+
+
+## Starting
+
+`npm start`
