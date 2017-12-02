@@ -2,6 +2,7 @@
 
 
 const config = require('./config')
+const search = require('./search')
 const auth = require('./auth')
 
 // tls private keys and certs
@@ -35,6 +36,26 @@ app.get('/auth-check', (req, res) => {
 
     auth.authenticated(token, (username) => {
       res.send("Yeah! You're authenticated!");
+    }, (err) => {
+      res.send("Sorry mois, token not found :(");
+    });
+
+});
+
+app.get('/search', (req, res) => {
+    let token = req.cookies['token'];
+
+    console.log("/search called");
+
+    auth.authenticated(token, (username) => {
+      // TODO facette search here
+      search.search_title(req.query.title, (search_results) => {
+        res.send(search_results);
+      }, () => {
+        res.send("error");
+      });
+
+
     }, (err) => {
       res.send("Sorry mois, token not found :(");
     });
