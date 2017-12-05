@@ -8,3 +8,5 @@
 ## Starting
 
 `npm start`
+
+`npm run scrape` starts the book data scraper
