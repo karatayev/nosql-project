@@ -2,6 +2,11 @@ require('dotenv').config();
 
 const XMLHttpRequest = require ('xmlhttprequest').XMLHttpRequest;
 const fs = require('fs');
+const elasticsearch = require('elasticsearch');
+const client = new elasticsearch.Client({
+  host: 'localhost:9200',
+  log: 'trace'
+});
 
 // Query configuration
 const basicUrl = 'https://www.googleapis.com/books/v1/volumes';
@@ -9,14 +14,20 @@ const urlbasicQueryWithCategory = '?q=subject:';  // every query has to begin wi
 const categories = ["horror", "adventure", "action", "fiction", "fantasy", "mystery", "thriller", "science", "technology", "computers", "internet", "politics", "history", "romance", "sports"];
 const maxResults = '&maxResults=40';  // up to 40 are allowed
 const startIndex = '&startIndex=0';  // if more than 40 books are needed, set startIndex to 40, 80, ...
-// const languageRestriction = '&langRestrict=de';  //for use insert at the end of createUrlList() push
+// Const languageRestriction = '&langRestrict=de';  //for use insert at the end of createUrlList() push
+
+// Repeating entries for lifelike distribution
+const formats = ["Audiobook", "Audiobook", "Paperback", "Paperback", "Paperback", "Paperback", "Paperback", "Hardcover", "Hardcover", "Hardcover"];
+
+// Database data destination
+const elasticIndex = "bookstore";
+const elasticType = "books";
 
 // Output file configuration
 const outputDataFolder = './scraper/data/';
 const outputFileName = 'bookdata';
 const outputFormat = '.json';
 
-const formats = ["Audiobook", "Audiobook", "Paperback", "Paperback", "Paperback", "Paperback", "Paperback", "Hardcover", "Hardcover", "Hardcover"]; //repeating entries for lifelike spreading
 
 var urlList = [];
 var promises = [];
@@ -85,8 +96,26 @@ function writeJsonToFile(data) {
     }
 }
 
-function writeJsonToDatabase(data) {
+function getDataForBulkImport(books) {
+    var bulkString = "";
+    var bulkIndex = '{"index":{"_index":"' + elasticIndex + '", "_type":"' + elasticType + '"}}\n' // Has to be before each dataset
 
+    books.forEach(book => {
+        bulkString = bulkString.concat(bulkIndex, JSON.stringify(book) + "\n");
+    })
+
+    return bulkString;
+}
+
+function writeJsonToDatabase(books) {
+  client.bulk({
+      body: [getDataForBulkImport(books)]
+  }, function(err, res) {
+      if(err) {
+          console.log(err);
+      }
+
+  });
 }
 
 function start() {
@@ -116,12 +145,13 @@ function start() {
 
     Promise.all(promises).then(() => {
         // Save the requested data into the database
-        // writeJsonToDatabase(booksOfAllCategories);
+        writeJsonToDatabase(booksOfAllCategories);
 
-        // Save the requested data into a file
-        writeJsonToFile(booksOfAllCategories);
-        console.log("DONE - " + booksOfAllCategories.length + " books were written to "
-            + outputDataFolder + outputFileName + outputFormat);
+        // Save the requested data into a file (ONLY BACKUP SOLUTION)
+        // writeJsonToFile(booksOfAllCategories);
+        // console.log(booksOfAllCategories);
+        // console.log("DONE - " + booksOfAllCategories.length + " books were written to "
+        //     + outputDataFolder + outputFileName + outputFormat);
     });
 }
 
