@@ -1,4 +1,3 @@
-// require('dotenv').config();
 const config = require('../config')
 
 const XMLHttpRequest = require ('xmlhttprequest').XMLHttpRequest;
