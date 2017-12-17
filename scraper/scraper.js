@@ -1,4 +1,5 @@
-require('dotenv').config();
+// require('dotenv').config();
+const config = require('../config')
 
 const XMLHttpRequest = require ('xmlhttprequest').XMLHttpRequest;
 const fs = require('fs');
@@ -20,8 +21,8 @@ const startIndex = '&startIndex=0';  // if more than 40 books are needed, set st
 const formats = ["Audiobook", "Audiobook", "Paperback", "Paperback", "Paperback", "Paperback", "Paperback", "Hardcover", "Hardcover", "Hardcover"];
 
 // Database data destination
-const elasticIndex = "bookstore";
-const elasticType = "books";
+const elasticIndex = config.ELASTIC_INDEX;
+const elasticType = config.ELASTIC_TYPE;
 
 // Output file configuration
 const outputDataFolder = './scraper/data/';
@@ -38,7 +39,7 @@ function createUrlList(categories) {
     var urlList = [];
 
     for(i = 0; i < categories.length; i++) {
-        urlList.push(basicUrl + urlbasicQueryWithCategory + categories[i] + maxResults + startIndex + "&key=" + process.env.API_KEY);
+        urlList.push(basicUrl + urlbasicQueryWithCategory + categories[i] + maxResults + startIndex + "&key=" + config.GOOGLE_BOOKS_API_KEY);
     }
 
     return urlList;
@@ -137,7 +138,8 @@ function start() {
                         "publishedDate": book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate : getRandomNumber(1960, 2017, 0) + "-" + getRandomNumber(1, 12, 0) + "-" + getRandomNumber(1, 29, 0),
                         "price": (book.saleInfo.listPrice && book.saleInfo.listPrice.amount) ? book.saleInfo.listPrice.amount : parseInt(getRandomNumber(10, 60, 2)),
                         "categories": book.volumeInfo.categories ? book.volumeInfo.categories : [getCategoryOutOfUrl(url)],
-                        "format": getRandomFormat()
+                        "format": getRandomFormat(),
+                        "image": (book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail) ? book.volumeInfo.imageLinks.thumbnail : ""
                     }));
             })
         );
