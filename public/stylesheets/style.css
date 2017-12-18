@@ -1,4 +1,76 @@
-html *
-{
-    margin: 3px 3px 3px 3px;
+.login-h1 {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.login {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  font-weight: bold;
+  text-align: center;
+}
+
+.wrapper > * {
+  padding: 10px;
+  flex: 1 100%;
+}
+
+.header {
+    color: #fff;
+    background-color: #232323;
+    padding: 20px 0;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.search {
+    order: 10;
+    flex: 8 0px;
+    text-align: left;
+}
+
+.search-input-field {
+    margin-left: 10px;
+    width: 60%;
+}
+
+.login {
+    order: 20;
+    flex: 4 0px;
+}
+
+.aside-left {
+  padding: 20px 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.main {
+    padding: 20px 0;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.photo-grid-item {
+    padding: 20px;
+}
+
+@media menu and (min-width: 600px) {
+  .aside { flex: 1 auto; }
+}
+
+@media all {
+  .aside { flex: 1 auto; }
+}
+
+@media all {
+  .main { flex: 10 0px; }
+  .aside-left { order: 1; }
+  .main { order: 2; }
 }
