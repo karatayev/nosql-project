@@ -21,3 +21,62 @@ Type: `books`
 
 Book attributes:
 `title`, `authors`, `publishedDate`, `price`, `categories`, `format`, `image`
+
+
+## Create mapping
+
+PUT bookstore
+{
+  "mappings": {
+    "books": {
+      "properties": {
+        "title":    { "type": "text"  },
+        "authors":  { "type": "keyword"  },
+        "publishedDate":      { "type": "keyword" },
+        "price": {"type": "integer"},
+        "categories": { "type": "text"},
+        "format": {"type": "keyword"},
+        "image": {"type": "text"}
+      }
+    }
+  }
+}
+
+
+GET bookstore/_search
+{
+ "query": {
+    "bool" : {
+      "should": {
+        "match": {
+          "title": "the"
+        }
+      },
+      "must": {
+        "range": {
+          "price": {
+          "gte" : 17,
+          "lte" : 36
+      }
+    }
+      }
+    }
+  },
+  "aggs": {
+    "formats": {
+      "terms": {
+         "field": "format"
+       }
+    },
+    "prices": {
+      "terms": {
+         "field": "price"
+       }
+    },
+    "authors": {
+      "terms": {
+         "field": "authors"
+       }
+    }
+  }
+}

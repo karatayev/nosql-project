@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+'use strict';
 
 const config = require('./config')
 const search = require('./search')
@@ -49,17 +49,63 @@ app.get('/search', (req, res) => {
 
     auth.authenticated(token, (username) => {
       // TODO facette search here
-      search.search_title(req.query.title, (search_results) => {
-        res.send(search_results);
-      }, () => {
-        res.send("error");
+      search.search(req.body.title, req.body.price_min, req.body.price_max).then((data) => {
+        let search_hits = [];
+
+        data.hits.hits.forEach(function(hit) {
+            //console.log(hit._source.title);
+            search_hits.push({book: hit._source, score: hit._score});
+        });
+
+        res.send({
+          hits: search_hits,
+          aggs: data.aggregations
+        });
+      }).catch(() => {
+        // foo
       });
-
-
     }, (err) => {
       res.send("Sorry mois, token not found :(");
     });
 
+});
+
+app.get('/favorites', (req, res) => {
+    let token = req.cookies['token'];
+
+    console.log("/favorites called");
+
+    auth.authenticated(token, (username) => {
+      // get favorites from sqlite
+    }, (err) => {
+      res.send("Sorry mois, token not found :(");
+    });
+});
+
+
+app.delete('/favorites', (req, res) => {
+    let token = req.cookies['token'];
+
+    console.log("/favorites called");
+
+    auth.authenticated(token, (username) => {
+      // get favorites from sqlite
+    }, (err) => {
+      res.send("Sorry mois, token not found :(");
+    });
+});
+
+// TODO post or put
+app.post('/favorites', (req, res) => {
+    let token = req.cookies['token'];
+
+    console.log("/favorites called");
+
+    auth.authenticated(token, (username) => {
+      // get favorites from sqlite
+    }, (err) => {
+      res.send("Sorry mois, token not found :(");
+    });
 });
 
 app.post('/login', (req, res) => {
