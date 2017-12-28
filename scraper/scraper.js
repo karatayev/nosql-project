@@ -18,6 +18,7 @@ const startIndex = '&startIndex=0';  // if more than 40 books are needed, set st
 
 // Repeating entries for lifelike distribution
 const formats = ["Audiobook", "Audiobook", "Paperback", "Paperback", "Paperback", "Paperback", "Paperback", "Hardcover", "Hardcover", "Hardcover"];
+const deliveryoptions = ["Super Fast", "Super Fast", "Fast", "Fast", "Fast", "Fast", "Normal", "Normal", "Normal", "Normal"];
 
 // Database data destination
 const elasticIndex = config.ELASTIC_INDEX;
@@ -68,6 +69,10 @@ function httpGet(url) {
 function getRandomNumber(min, max, decimal) {
 
     return (Math.random() * (max - min) + min).toFixed(decimal);
+}
+
+function getRandomDelivery() {
+    return deliveryoptions[getRandomNumber(0, deliveryoptions.length - 1, 0)];
 }
 
 function getRandomFormat() {
@@ -136,6 +141,7 @@ function start() {
                         "authors": book.volumeInfo.authors ? book.volumeInfo.authors : ["Max Mustermann"],
                         "publishedDate": book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate : getRandomNumber(1960, 2017, 0) + "-" + getRandomNumber(1, 12, 0) + "-" + getRandomNumber(1, 29, 0),
                         "price": (book.saleInfo.listPrice && book.saleInfo.listPrice.amount) ? book.saleInfo.listPrice.amount : parseInt(getRandomNumber(10, 60, 2)),
+                        "deliveryoption": getRandomDelivery(),
                         "categories": book.volumeInfo.categories ? book.volumeInfo.categories : [getCategoryOutOfUrl(url)],
                         "format": getRandomFormat(),
                         "image": (book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail) ? book.volumeInfo.imageLinks.thumbnail : ""

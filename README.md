@@ -20,7 +20,7 @@ Index: `bookstore`
 Type: `books`
 
 Book attributes:
-`title`, `authors`, `publishedDate`, `price`, `categories`, `format`, `image`
+`title`, `authors`, `publishedDate`, `price`, `deliveryoption`, `categories`, `format`, `image`
 
 
 ## Create mapping
