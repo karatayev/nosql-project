@@ -4,6 +4,7 @@
 const config = require('./config')
 const search = require('./search')
 const auth = require('./auth')
+const favs = require('./favs')
 
 // tls private keys and certs
 const fs = require('fs');
@@ -48,8 +49,6 @@ app.get('/search', (req, res) => {
     console.log("/search called");
 
     auth.authenticated(token, (username) => {
-      // TODO facette search here
-
       search.search(req.query.title, req.query.price_min, req.query.price_max, req.query.published_date, req.query.authors, req.query.format, req.query.delivery_option, req.query.categories).then((data) => {
         let search_hits = [];
 
@@ -76,20 +75,23 @@ app.get('/favorites', (req, res) => {
     console.log("/favorites called");
 
     auth.authenticated(token, (username) => {
-      // TODO get favorites from sqlite
+      favs.get(username).then((favorites) => {
+        res.send(favorites);
+      });
+
     }, (err) => {
       res.send("Sorry mois, token not found :(");
     });
 });
 
-
+// TODO
 app.delete('/favorites', (req, res) => {
     let token = req.cookies['token'];
 
     console.log("/favorites called");
 
     auth.authenticated(token, (username) => {
-      // TODO delete favorites from sqlite
+        favs.delete(username, req.body.bookID);
     }, (err) => {
       res.send("Sorry mois, token not found :(");
     });
@@ -102,7 +104,7 @@ app.post('/favorites', (req, res) => {
     console.log("/favorites called");
 
     auth.authenticated(token, (username) => {
-      // TODO get favorites from sqlite
+        favs.add(username, req.body.bookID);
     }, (err) => {
       res.send("Sorry mois, token not found :(");
     });
@@ -113,7 +115,7 @@ app.post('/login', (req, res) => {
   let password = req.body.password;
 
   auth.login(username, password, (token) => {
-      auth.sessions[token] = username;
+      auth.register_session(token, username);
 
       res.cookie('token', token, { httpOnly: true, secure: true });
       res.send("OK, check with /auth-check");
@@ -131,7 +133,7 @@ app.post('/logout', (req, res) => {
 });
 
 
-var server = https.createServer(keys, app);
+let server = https.createServer(keys, app);
 
 server.listen(config.SERVER_PORT, () => {
     console.log('[server] bookstore listening...');

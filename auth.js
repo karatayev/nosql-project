@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict';
 
 const sqlite3 = require('sqlite3').verbose();
 const crypto = require('crypto');
@@ -7,6 +8,9 @@ const saltRounds = 12;
 
 // open sessions, list of <token>: <username>
 let sessions = {};
+
+exports.ERROR_MSG_UNAUTHENTICATED_REQUEST = 'TODO';
+
 
 
 
@@ -18,31 +22,16 @@ const db = new sqlite3.Database('./access.db', sqlite3.OPEN_READWRITE, (err) => 
 });
 
 // secure random token creation
-generate_token = () => {
+var generate_token = () => {
     return(crypto.randomBytes(128).toString('hex'));
 };
 
-
+exports.register_session = (token, username) => {
+    sessions[token] = username;
+};
 
 exports.login = (username, password, callback_success, callback_failure) => {
   db.get(`SELECT pwhash FROM login_creds WHERE username = ?`, [username], (err, row) => {
-      bcrypt.compare(password, row.pwhash).then(function(res2) {
-        if (res2 == true) {
-          console.log("[Login] successfull login attempt:", username);
-          callback_success(generate_token());
-          // TODO forward visitor to main page
-        }
-        else {
-          console.log("[Login] failed login attempt:", username);
-          callback_failure(err);
-        }
-      });
-  });
-};
-
-exports.get_favorites = (username) => {
-  // TODO TODO TODO
-  db.get(`SELECT pwhash FROM favorites WHERE username = ?`, [username], (err, row) => {
       bcrypt.compare(password, row.pwhash).then(function(res2) {
         if (res2 == true) {
           console.log("[Login] successfull login attempt:", username);
@@ -83,4 +72,4 @@ exports.authenticated = (token, callback_success, callback_failure) => {
     }
 };
 
-console.log("[auth] loaded")
+console.log("[auth] loaded");
