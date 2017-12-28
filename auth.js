@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 12;
 
 // open sessions, list of <token>: <username>
-exports.sessions = {};
+let sessions = {};
 
 
 
@@ -59,14 +59,21 @@ exports.get_favorites = (username) => {
 
 
 exports.logout = (token) => {
-    console.log("foo");
-    // TODO
+    let user = sessions[token];
+
+    if (user) {
+        console.log("logout:", user);
+        delete sessions[token];
+    }
+    else {
+        console.log("Error: tried to logout while not being authenticated.");
+    }
 };
 
 exports.authenticated = (token, callback_success, callback_failure) => {
     // verify cookie token for every api call
 
-    let user = exports.sessions[token];
+    let user = sessions[token];
 
     if (user) {
       callback_success(user);
@@ -74,7 +81,6 @@ exports.authenticated = (token, callback_success, callback_failure) => {
     else {
       callback_failure("Token not found")
     }
-
 };
 
 console.log("[auth] loaded")

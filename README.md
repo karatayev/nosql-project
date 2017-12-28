@@ -34,13 +34,18 @@ PUT bookstore
         "authors":  { "type": "keyword"  },
         "publishedDate":      { "type": "keyword" },
         "price": {"type": "integer"},
-        "categories": { "type": "text"},
+        "categories": { "type": "keyword"},
         "format": {"type": "keyword"},
         "image": {"type": "text"}
       }
     }
   }
 }
+
+
+## Security
+
+* All parameters must be protected against NoSQL injection: https://ckarande.gitbooks.io/owasp-nodegoat-tutorial/content/tutorial/a1_-_sql_and_nosql_injection.html
 
 
 GET bookstore/_search

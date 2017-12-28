@@ -49,11 +49,11 @@ app.get('/search', (req, res) => {
 
     auth.authenticated(token, (username) => {
       // TODO facette search here
-      search.search(req.body.title, req.body.price_min, req.body.price_max).then((data) => {
+
+      search.search(req.query.title, req.query.price_min, req.query.price_max, req.query.published_date, req.query.authors, req.query.format, req.query.delivery_option, req.query.categories).then((data) => {
         let search_hits = [];
 
         data.hits.hits.forEach(function(hit) {
-            //console.log(hit._source.title);
             search_hits.push({book: hit._source, score: hit._score});
         });
 
@@ -76,7 +76,7 @@ app.get('/favorites', (req, res) => {
     console.log("/favorites called");
 
     auth.authenticated(token, (username) => {
-      // get favorites from sqlite
+      // TODO get favorites from sqlite
     }, (err) => {
       res.send("Sorry mois, token not found :(");
     });
@@ -89,7 +89,7 @@ app.delete('/favorites', (req, res) => {
     console.log("/favorites called");
 
     auth.authenticated(token, (username) => {
-      // get favorites from sqlite
+      // TODO delete favorites from sqlite
     }, (err) => {
       res.send("Sorry mois, token not found :(");
     });
@@ -102,15 +102,15 @@ app.post('/favorites', (req, res) => {
     console.log("/favorites called");
 
     auth.authenticated(token, (username) => {
-      // get favorites from sqlite
+      // TODO get favorites from sqlite
     }, (err) => {
       res.send("Sorry mois, token not found :(");
     });
 });
 
 app.post('/login', (req, res) => {
-  var username = req.body.username;
-  var password = req.body.password;
+  let username = req.body.username;
+  let password = req.body.password;
 
   auth.login(username, password, (token) => {
       auth.sessions[token] = username;
@@ -123,8 +123,11 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/logout', (req, res) => {
-    res.send('Hello World!');
-    // TODO delete token
+    auth.authenticated(token, (username) => {
+      auth.logout(token);
+    }, (err) => {
+      res.send("Sorry mois, token not found :(");
+    });
 });
 
 
