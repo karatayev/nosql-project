@@ -27,7 +27,7 @@ Book attributes:
 ## Setting up the project
 
 1. Download and start Elasticsearch 
-2. Put the following mapping:
+2. Put the following mapping (e.g. using `kibana` or `curl`):
 
 ```
 PUT bookstore
@@ -48,12 +48,17 @@ PUT bookstore
 }
 ```
 
+3. Run `npm run scrape` to import some books to Elasticsearch
+4. Run `npm start` to launch bookstore
+5. Visit https://127.0.0.1:1337/, login using sample credentials `tobias:password` or `florian:password`
+6. Perform your searches
+
 ## Security
 
 Authentication
 
 * Backend calls except /login must be authenticated using a valid cookie
-* Password hashes in database are protected by BCRYPT
+* Password hashes in database are protected by BCRYPT hashing algorithm
 
 Injection
 
