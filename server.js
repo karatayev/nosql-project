@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/** @module server */
 'use strict';
 
 const config = require('./config');

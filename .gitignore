@@ -62,3 +62,6 @@ scraper/data/
 
 # IDE
 .idea/
+
+# jsdoc documentation
+documentation/

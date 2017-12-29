@@ -1,15 +1,29 @@
 #!/usr/bin/env node
+/** @module search */
 'use strict';
 
 const config = require('./config');
 
 let elasticsearch = require('elasticsearch');
 
+/** Elasticsearch database connection. */
 let client = new elasticsearch.Client({
-    host: 'localhost:9200',
+    host: config.DATABASE_BOOKS.host + ':' + config.DATABASE_BOOKS.port,
     log: 'error'
 });
 
+/**
+ * Bookstore search using facettes.
+ * @param {string} queryTitle - Book title that should match.
+ * @param {string} priceMin - Minimum price that must be met.
+ * @param {string} priceMax - Maximum price that must be met .
+ * @param {string} publishedDate - Date or year when book was published.
+ * @param {string} authors - Comma separated list of authors.
+ * @param {string} format - Paperback/Hardcover/Audiobook.
+ * @param {string} deliveryOption - Delivery option provided.
+ * @param {string} categories - Comma separated list of categories.
+ * @returns {Promise} Promise object which represents elasticsearch search.
+ */
 exports.search = (queryTitle, priceMin, priceMax, publishedDate, authors, format, deliveryOption, categories) => {
     let searchTemplate = {
         index: config.ELASTIC_INDEX,
@@ -41,6 +55,7 @@ exports.search = (queryTitle, priceMin, priceMax, publishedDate, authors, format
         }
     };
 
+    // title
     if (typeof queryTitle !== 'undefined') {
         searchTemplate.body.query.bool.should.push({match: {title: queryTitle}});
     } else {
@@ -63,8 +78,6 @@ exports.search = (queryTitle, priceMin, priceMax, publishedDate, authors, format
             publishedDate: publishedDate
         }
         });
-    } else {
-    // TODO
     }
 
     // book format
@@ -73,39 +86,36 @@ exports.search = (queryTitle, priceMin, priceMax, publishedDate, authors, format
             format: format
         }
         });
-    } else {
-    // TODO
     }
 
-    // TODO delivery_option?
+    // delivery option
+    if (typeof deliveryOption !== 'undefined') {
+        searchTemplate.body.query.bool.must.push({term: {
+            deliveryoption: deliveryOption
+        }
+        });
+    }
 
     // authors
     if (typeof authors !== 'undefined') {
-    // split the list
+        // split the list
         let authorsList = authors.split(',');
 
-        authorsList.forEach((author) => {
-            searchTemplate.body.query.bool.must.push({term: {
-                authors: author
-            }
-            });
+        searchTemplate.body.query.bool.must.push({terms: {
+            authors: authorsList
+        }
         });
-    } else {
-    // TODO
     }
 
     // categories
     if (typeof categories !== 'undefined') {
     // split the list
         let categoriesList = categories.split(',');
-        console.log(categoriesList);
 
         searchTemplate.body.query.bool.must.push({terms: {
             categories: categoriesList
         }
         });
-    } else {
-    // TODO
     }
 
     return (client.search(searchTemplate));

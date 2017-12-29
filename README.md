@@ -16,6 +16,8 @@ for the headline "Acquiring and using an API key". Add the key to your .env file
 
 `npm run linter` runs `eslint` on the project.
 
+`npm run documentation` creates jsdoc documentation
+
 ## ElasticSearch naming
 Index: `bookstore`
 Type: `books`

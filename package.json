@@ -6,10 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "scrape": "node ./scraper/scraper.js",
-    "linter": "node ./node_modules/eslint/bin/eslint.js -c eslintrc.json scraper/ *.js"
+    "linter": "node ./node_modules/eslint/bin/eslint.js -c eslintrc.json scraper/ *.js",
+    "documentation": "node ./node_modules/jsdoc/jsdoc.js . --destination documentation/"
   },
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/karatayev/nosql-project.git"
+  },
   "dependencies": {
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
@@ -23,6 +28,7 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "express": "^4.16.2",
+    "jsdoc": "^3.5.5",
     "sqlite3": "^3.1.13",
     "xmlhttprequest": "^1.8.0"
   }
