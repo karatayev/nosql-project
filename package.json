@@ -28,6 +28,7 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "express": "^4.16.2",
+    "is-alphanumeric": "^1.0.0",
     "jsdoc": "^3.5.5",
     "sqlite3": "^3.1.13",
     "xmlhttprequest": "^1.8.0"

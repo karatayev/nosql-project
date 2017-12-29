@@ -12,6 +12,10 @@ let client = new elasticsearch.Client({
     log: 'error'
 });
 
+let validParameter = (str) => {
+    return typeof str === 'string' && /[\w.\-, ]+/.test(str);
+}
+
 /**
  * Bookstore search using facettes.
  * @param {string} queryTitle - Book title that should match.
@@ -56,24 +60,24 @@ exports.search = (queryTitle, priceMin, priceMax, publishedDate, authors, format
     };
 
     // title
-    if (typeof queryTitle !== 'undefined') {
-        searchTemplate.body.query.bool.should.push({match: {title: queryTitle}});
+    if (validParameter(queryTitle)) {
+        searchTemplate.body.query.bool.should.push({match: {title: String(queryTitle)}});
     } else {
         searchTemplate.body.query.bool.should.push({match_all: {}});
     }
 
     // if prices are availabe, set them
-    if (typeof priceMin !== 'undefined' && typeof priceMax !== 'undefined') {
+    if (validParameter(priceMin) && validParameter(priceMax)) {
         searchTemplate.body.query.bool.must.push({range: {price: {
-            gte: parseInt(priceMin, 10),
-            lte: parseInt(priceMax, 10)
+            gte: parseFloat(priceMin),
+            lte: parseFloat(priceMax)
         }
         }
         });
     }
 
     // published date (term exact match)
-    if (typeof publishedDate !== 'undefined') {
+    if (validParameter(publishedDate)) {
         searchTemplate.body.query.bool.must.push({term: {
             publishedDate: publishedDate
         }
@@ -81,7 +85,7 @@ exports.search = (queryTitle, priceMin, priceMax, publishedDate, authors, format
     }
 
     // book format
-    if (typeof format !== 'undefined') {
+    if (validParameter(format)) {
         searchTemplate.body.query.bool.must.push({term: {
             format: format
         }
@@ -89,7 +93,7 @@ exports.search = (queryTitle, priceMin, priceMax, publishedDate, authors, format
     }
 
     // delivery option
-    if (typeof deliveryOption !== 'undefined') {
+    if (validParameter(deliveryOption)) {
         searchTemplate.body.query.bool.must.push({term: {
             deliveryoption: deliveryOption
         }
@@ -97,7 +101,7 @@ exports.search = (queryTitle, priceMin, priceMax, publishedDate, authors, format
     }
 
     // authors
-    if (typeof authors !== 'undefined') {
+    if (validParameter(authors)) {
         // split the list
         let authorsList = authors.split(',');
 
@@ -108,7 +112,7 @@ exports.search = (queryTitle, priceMin, priceMax, publishedDate, authors, format
     }
 
     // categories
-    if (typeof categories !== 'undefined') {
+    if (validParameter(categories)) {
     // split the list
         let categoriesList = categories.split(',');
 

@@ -64,5 +64,5 @@ Authentication
 
 Injection
 
-* All parameters must be protected against NoSQL injection: https://ckarande.gitbooks.io/owasp-nodegoat-tutorial/content/tutorial/a1_-_sql_and_nosql_injection.html
+* All parameters are protected against NoSQL injection using type checks https://ckarande.gitbooks.io/owasp-nodegoat-tutorial/content/tutorial/a1_-_sql_and_nosql_injection.html. Furthermore, only values are allowed which match `[\w., ]+`.
 * Login and favs are protected against SQL injection using prepared statements
