@@ -59,10 +59,10 @@ PUT bookstore
 
 Authentication
 
-* Backend calls except /login must be authenticated using a valid cookie
+* Backend calls except `/login` must be authenticated using a valid cookie token
 * Password hashes in database are protected by BCRYPT hashing algorithm
 
 Injection
 
 * All parameters must be protected against NoSQL injection: https://ckarande.gitbooks.io/owasp-nodegoat-tutorial/content/tutorial/a1_-_sql_and_nosql_injection.html
-* Login and favs must be protected against SQL injection
+* Login and favs are protected against SQL injection using prepared statements

@@ -2,10 +2,11 @@
 /** @module favs */
 'use strict';
 
+const config = require('./config');
 const sqlite3 = require('sqlite3').verbose();
 
 /** database connection */
-const db = new sqlite3.Database('./favs.db', sqlite3.OPEN_READWRITE, (err) => {
+const db = new sqlite3.Database(config.DATABASE_FAVORITES, sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
         console.error(err.message);
     }

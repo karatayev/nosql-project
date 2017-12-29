@@ -20,7 +20,7 @@ exports.DATABASE_LOGIN = 'db/access.db';
 exports.DATABASE_FAVORITES = 'db/favs.db';
 exports.DATABASE_BOOKS = {
     host: '127.0.0.1',
-    port: '9002'
+    port: '9200'
 };
 
 /** Database data structure */

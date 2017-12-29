@@ -43,7 +43,7 @@ app.get('/search', (req, res) => {
                 aggs: data.aggregations
             });
         }).catch((err) => { res.send(err); });
-    }).catch((err) => { res.send(err); });
+    }).catch((err) => { res.status(401).send(err.message); });
 });
 
 app.get('/favorites', (req, res) => {
@@ -53,7 +53,7 @@ app.get('/favorites', (req, res) => {
         favs.get(username).then((favorites) => {
             res.send(favorites);
         });
-    }).catch((err) => { res.send(err, 'Sorry mois, token not found :('); });
+    }).catch((err) => { res.status(401).send(err.message); });
 });
 
 // TODO
@@ -62,9 +62,7 @@ app.delete('/favorites', (req, res) => {
 
     auth.authenticated(token).then((username) => {
         favs.delete(username, req.body.bookID);
-    }).catch((err) => {
-        res.send(err);
-    });
+    }).catch((err) => { res.status(401).send(err.message); });
 });
 
 // TODO post or put
@@ -73,7 +71,7 @@ app.post('/favorites', (req, res) => {
 
     auth.authenticated(token).then((username) => {
         favs.add(username, req.body.bookID);
-    }).catch((err) => { res.send(err); });
+    }).catch((err) => { res.status(401).send(err.message); });
 });
 
 app.post('/login', (req, res) => {
@@ -85,15 +83,15 @@ app.post('/login', (req, res) => {
 
         res.cookie('token', token, { httpOnly: true, secure: true });
         res.send('OK, check with /auth-check');
-    }).catch((err) => { res.send(err); });
+    }).catch((err) => { res.status(401).send(err.message); });
 });
 
-app.post('/logout', (req, res) => {
+app.get('/logout', (req, res) => {
     let token = req.cookies['token'];
 
     auth.authenticated(token).then((username) => {
         auth.logout(token);
-    }).catch((err) => { res.send(err); });
+    }).catch((err) => { res.status(401).send(err.message); });
 });
 
 // create the https server

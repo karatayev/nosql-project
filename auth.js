@@ -2,6 +2,7 @@
 /** @module auth */
 'use strict';
 
+const config = require('./config');
 const sqlite3 = require('sqlite3').verbose();
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
@@ -12,7 +13,7 @@ exports.ERROR_UNAUTHENTICATED_REQUEST = 'TODO';
 let sessions = {};
 
 // open database connection
-const db = new sqlite3.Database('./access.db', sqlite3.OPEN_READONLY, (err) => {
+const db = new sqlite3.Database(config.DATABASE_LOGIN, sqlite3.OPEN_READONLY, (err) => {
     if (err) {
         console.error(err.message);
     }
@@ -84,7 +85,7 @@ exports.authenticated = (token) => {
         if (user) {
             resolve(user);
         } else {
-            reject(new Error('unauthorized token'));
+            reject(new Error('Invalid token, user not authorized.'));
         }
     });
 };
