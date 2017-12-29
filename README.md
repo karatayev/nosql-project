@@ -14,6 +14,7 @@ It is possible that you need a Google Books API Key for acquiring many books. To
 get an API key look at https://developers.google.com/books/docs/v1/using and search
 for the headline "Acquiring and using an API key". Add the key to your .env file.
 
+`npm run linter` runs `eslint` on the project.
 
 ## ElasticSearch naming
 Index: `bookstore`
@@ -23,8 +24,12 @@ Book attributes:
 `title`, `authors`, `publishedDate`, `price`, `deliveryoption`, `categories`, `format`, `image`
 
 
-## Create mapping
+## Setting up the project
 
+1. Download and start Elasticsearch 
+2. Put the following mapping:
+
+```
 PUT bookstore
 {
   "mappings": {
@@ -41,47 +46,16 @@ PUT bookstore
     }
   }
 }
-
+```
 
 ## Security
 
+Authentication
+
+* Backend calls except /login must be authenticated using a valid cookie
+* Password hashes in database are protected by BCRYPT
+
+Injection
+
 * All parameters must be protected against NoSQL injection: https://ckarande.gitbooks.io/owasp-nodegoat-tutorial/content/tutorial/a1_-_sql_and_nosql_injection.html
-
-
-GET bookstore/_search
-{
- "query": {
-    "bool" : {
-      "should": {
-        "match": {
-          "title": "the"
-        }
-      },
-      "must": {
-        "range": {
-          "price": {
-          "gte" : 17,
-          "lte" : 36
-      }
-    }
-      }
-    }
-  },
-  "aggs": {
-    "formats": {
-      "terms": {
-         "field": "format"
-       }
-    },
-    "prices": {
-      "terms": {
-         "field": "price"
-       }
-    },
-    "authors": {
-      "terms": {
-         "field": "authors"
-       }
-    }
-  }
-}
+* Login and favs must be protected against SQL injection
