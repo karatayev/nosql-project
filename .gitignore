@@ -61,4 +61,4 @@ typings/
 scraper/data/
 
 # IDE
-.idea/
+.idea/*
