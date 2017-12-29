@@ -35,7 +35,7 @@ app.get('/search', (req, res) => {
             let searchHits = [];
 
             data.hits.hits.forEach(function (hit) {
-                searchHits.push({book: hit._source, score: hit._score});
+                searchHits.push({book: hit._source, score: hit._score, id: hit._id});
             });
 
             res.send({
