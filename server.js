@@ -46,6 +46,16 @@ app.get('/search', (req, res) => {
     }).catch((err) => { res.status(401).send(err.message); });
 });
 
+app.get('/book', (req, res) => {
+    let token = req.cookies['token'];
+
+    auth.authenticated(token).then(() => {
+        search.getBookByID(req.query.id).then((data) => {
+            res.send(data.hits.hits);
+        }).catch((err) => {res.status(406).send(err.message);});
+    }).catch((err) => { res.status(401).send(err.message); });
+});
+
 app.get('/favorites', (req, res) => {
     let token = req.cookies['token'];
 

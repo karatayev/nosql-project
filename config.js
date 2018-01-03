@@ -27,4 +27,6 @@ exports.DATABASE_BOOKS = {
 exports.ELASTIC_INDEX = 'bookstore';
 exports.ELASTIC_TYPE = 'books';
 
+exports.SEARCH_MAX_RESULT_COUNT = 1000;
+
 console.log('[config] loaded');

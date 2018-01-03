@@ -14,7 +14,7 @@ let client = new elasticsearch.Client({
 
 let validParameter = (str) => {
     return typeof str === 'string' && /[\w.\-, ]+/.test(str);
-}
+};
 
 /**
  * Bookstore search using facettes.
@@ -33,6 +33,8 @@ exports.search = (queryTitle, priceMin, priceMax, publishedDate, authors, format
         index: config.ELASTIC_INDEX,
         type: config.ELASTIC_TYPE,
         body: {
+            from: 0,
+            size: config.SEARCH_MAX_RESULT_COUNT,
             query: {
                 bool: {
                     should: [],
@@ -123,4 +125,24 @@ exports.search = (queryTitle, priceMin, priceMax, publishedDate, authors, format
     }
 
     return (client.search(searchTemplate));
+};
+
+exports.getBookByID = (bookID) => {
+    if (validParameter(bookID)) {
+        return (client.search({
+            index: config.ELASTIC_INDEX,
+            type: config.ELASTIC_TYPE,
+            body: {
+                query: {
+                    term: {
+                        _id: bookID
+                    }
+                }
+            }
+        }));
+    } else {
+        return new Promise((resolve, reject) => {
+            reject(new Error('bookID parameter invalid'));
+        });
+    }
 };
