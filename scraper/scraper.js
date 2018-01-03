@@ -1,7 +1,6 @@
 const config = require('../config');
 
 const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
-const fs = require('fs');
 const elasticsearch = require('elasticsearch');
 const client = new elasticsearch.Client({
     host: 'localhost:9200',
@@ -24,11 +23,6 @@ const deliveryoptions = ['Super Fast', 'Super Fast', 'Fast', 'Fast', 'Fast', 'Fa
 const elasticIndex = config.ELASTIC_INDEX;
 const elasticType = config.ELASTIC_TYPE;
 
-// Output file configuration
-const outputDataFolder = './scraper/data/';
-const outputFileName = 'bookdata';
-const outputFormat = '.json';
-
 var urlList = [];
 var promises = [];
 var booksOfAllCategories = [];
@@ -37,9 +31,9 @@ var booksOfAllCategories = [];
 function createUrlList (categories) {
     var urlList = [];
 
-    for (i = 0; i < categories.length; i++) {
-        urlList.push(basicUrl + urlbasicQueryWithCategory + categories[i] + maxResults + startIndex + '&key=' + config.GOOGLE_BOOKS_API_KEY);
-    }
+    categories.forEach(category => {
+        urlList.push(basicUrl + urlbasicQueryWithCategory + category + maxResults + startIndex + '&key=' + config.GOOGLE_BOOKS_API_KEY);
+    });
 
     return urlList;
 }
@@ -51,7 +45,7 @@ function httpGet (url) {
 
         request.open('GET', url);
         request.onload = function () {
-            if (request.status == 200) {
+            if (request.status === 200) {
                 resolve(request.responseText);
             } else {
                 reject(Error(request));
@@ -81,20 +75,6 @@ function getCategoryOutOfUrl (url) {
     var subject = regex.exec(url)[1];
 
     return subject.charAt(0).toUpperCase() + subject.slice(1);
-}
-
-function writeJsonToFile (data) {
-    if (!fs.existsSync(outputDataFolder)) {
-        fs.mkdirSync(outputDataFolder);
-    }
-
-    if (data) {
-        fs.writeFile(outputDataFolder + outputFileName + outputFormat, JSON.stringify(data), function (err) {
-            if (err) {
-                return console.log(err);
-            }
-        });
-    }
 }
 
 function getDataForBulkImport (books) {
@@ -137,7 +117,7 @@ function start () {
                         'publishedDate': book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate : getRandomNumber(1960, 2017, 0) + '-' + getRandomNumber(1, 12, 0) + '-' + getRandomNumber(1, 29, 0),
                         'price': (book.saleInfo.listPrice && book.saleInfo.listPrice.amount) ? book.saleInfo.listPrice.amount : parseInt(getRandomNumber(10, 60, 2)),
                         'deliveryoption': getRandomDelivery(),
-                        'categories': book.volumeInfo.categories ? book.volumeInfo.categories : [getCategoryOutOfUrl(url)],
+                        'categories': [getCategoryOutOfUrl(url)],
                         'format': getRandomFormat(),
                         'image': (book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail) ? book.volumeInfo.imageLinks.thumbnail : ''
                     }));
@@ -148,12 +128,6 @@ function start () {
     Promise.all(promises).then(() => {
         // Save the requested data into the database
         writeJsonToDatabase(booksOfAllCategories);
-
-        // Save the requested data into a file (ONLY BACKUP SOLUTION)
-        // writeJsonToFile(booksOfAllCategories);
-        // console.log(booksOfAllCategories);
-        // console.log("DONE - " + booksOfAllCategories.length + " books were written to "
-        //     + outputDataFolder + outputFileName + outputFormat);
     });
 }
 
