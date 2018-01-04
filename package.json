@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "scrape": "node ./scraper/scraper.js",
+    "scraper": "node ./scraper/scraper.js",
     "linter": "node ./node_modules/eslint/bin/eslint.js -c eslintrc.json scraper/ *.js",
     "documentation": "node ./node_modules/jsdoc/jsdoc.js . --destination documentation/"
   },

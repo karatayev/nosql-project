@@ -9,7 +9,7 @@
 
 `npm start`
 
-`npm run scrape` starts the book data scraper
+`npm run scraper` starts the book data scraper
 It is possible that you need a Google Books API Key for acquiring many books. To
 get an API key look at https://developers.google.com/books/docs/v1/using and search
 for the headline "Acquiring and using an API key". Add the key to your .env file.
@@ -28,7 +28,7 @@ Book attributes:
 
 ## Setting up the project
 
-1. Download and start Elasticsearch 
+1. Download and start Elasticsearch
 2. Put the following mapping (e.g. using `kibana` or `curl`):
 
 ```
@@ -50,7 +50,7 @@ PUT bookstore
 }
 ```
 
-3. Run `npm run scrape` to import some books to Elasticsearch
+3. Run `npm run scraper` to import some books to Elasticsearch
 4. Run `npm start` to launch bookstore
 5. Visit https://127.0.0.1:1337/, login using sample credentials `tobias:password` or `florian:password`
 6. Perform your searches
