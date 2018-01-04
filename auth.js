@@ -42,17 +42,32 @@ exports.register_session = (token, username) => {
 exports.login = (username, password) => {
     return new Promise((resolve, reject) => {
         // get the first matching row from the database
-        db.get(`SELECT pwhash FROM login_creds WHERE username = ?`, [username], (err, row) => {
+        let queryStatus = db.get(`SELECT pwhash FROM login_creds WHERE username = ?`, [username], (err, row) => {
+            if (err) {
+                return (-1);
+            }
+
+            if (typeof row === 'undefined') {
+                console.log('[Login] failed login attempt (not present in DB):', username);
+                return (-1);
+            }
+
             bcrypt.compare(password, row.pwhash).then((res2) => {
                 if (res2 === true) {
                     console.log('[Login] successfull login attempt:', username);
                     resolve(generateToken());
                 } else {
                     console.log('[Login] failed login attempt:', username);
-                    reject(err); // TODO
+                    reject(new Error('invalid credentials'));
                 }
+            }).catch((err) => {
+                reject(new Error('invalid credentials'));
             });
         });
+
+        if (queryStatus === -1) {
+            reject(new Error('invalid credentials'));
+        }
     });
 };
 

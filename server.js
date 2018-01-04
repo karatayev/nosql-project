@@ -52,7 +52,7 @@ app.get('/book', (req, res) => {
     auth.authenticated(token).then(() => {
         search.getBookByID(req.query.id).then((data) => {
             res.send(data.hits.hits);
-        }).catch((err) => {res.status(406).send(err.message);});
+        }).catch((err) => { res.status(406).send(err.message); });
     }).catch((err) => { res.status(401).send(err.message); });
 });
 
@@ -87,6 +87,10 @@ app.post('/favorites', (req, res) => {
 app.post('/login', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
+
+    if (typeof username === 'undefined' || typeof password === 'undefined') {
+        res.status(401).send('invalid credentials');
+    }
 
     auth.login(username, password).then((token) => {
         auth.register_session(token, username);
