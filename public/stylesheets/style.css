@@ -17,7 +17,7 @@
     justify-content: flex-start;
 }
 
-.login {
+#loginForm {
     order: 20;
     flex: 4 0px;
     margin-top: 30px;
@@ -48,10 +48,56 @@
     align-items: flex-start;
 }
 
+label {
+    font-size: small;
+}
+
+.form-check-label {
+    font-weight: 500;
+}
+
 .main {
     padding: 20px 0;
     display: flex;
     justify-content: flex-start;
+}
+
+
+.resultItem {
+    text-align: left;
+    margin-top: 30px;
+}
+
+.subResultItem {
+    margin: 0;
+}
+
+#title {
+    font-size: x-large;
+}
+
+#publishedDate {
+    font-size: small;
+}
+
+#authors {
+    font-size: small;
+}
+
+#categories {
+    font-size: small;
+}
+
+#format {
+    font-size: small;
+}
+
+#price {
+    color: red;
+}
+
+#deliveryoption {
+    font-size: small;
 }
 
 @media all {
