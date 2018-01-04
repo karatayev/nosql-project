@@ -7,23 +7,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <!--  Flexbox Grid CSS -->
-    <link rel="stylesheet" href="./stylesheets/flexboxgrid.min.css" type="text/css">
+    <link rel="stylesheet" href="./stylesheets/external/bootstrap.min.css">
+    <!-- Flexbox Grid CSS -->
+    <link rel="stylesheet" href="./stylesheets/external/flexboxgrid.min.css" type="text/css">
     <!-- Other CSS -->
     <link rel="stylesheet" href="./stylesheets/style.css">
+
+    <!-- scripts -->
+    <script src="./scripts/external/jquery-3.2.1.min.js"></script>
+    <script src="./scripts/htmlbuilder.js" type="text/javascript"></script>
 </head>
 
 <body>
 
+
     <div class="wrapper">
-        <header class="header">
+        <header class="header" id="header">
             <!-- Login form -->
-            <form class="login" action="/login" method="post">
-                <div class="form-group">
-                    <input class="form-control login-form" type="text" name="username" placeholder="Username">
-                    <input class="form-control login-form" type="password" name="password" placeholder="Password">
-                    <button class="btn btn-default login-form-button" type="submit" name="commit">Sign in</button>
+            <form id="loginForm" action="/login" method="post">
+                <div class="form-group dynamic-signin">
+                    <input class="form-control login-form" id="username" type="text" name="username" placeholder="Username" />
+                    <input class="form-control login-form" id="password" type="password" name="password" placeholder="Password" />
+                    <button class="btn btn-default login-form-button" id="loginbutton" type="submit" name="commit">Sign in</button>
                 </div>
             </form>
         </header>
@@ -31,60 +36,12 @@
         <div class="aside aside-left">
             <div class="search">
                 <!-- Search form -->
-                <form action="/search" method="get">
+                <form id="searchForm" action="/search" method="get">
                     <!-- Text search -->
                     <div class="form-group">
-                        <label class="col-form-label" for="textsearch"><h4>Search books</h4></label>
-                        <input class="form-control" id="textsearch" type="text" name="title" placeholder="Search text" />
-                    </div>
-
-                    <!-- Categories -->
-                    Categories
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="categories" value="horror">
-                            Horror
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="categories" value="action">
-                            Action
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="categories" value="fantasy">
-                            Fantasy
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="categories" value="fiction">
-                            Fiction
-                        </label>
-                    </div>
-
-                    <!-- Delivery options -->
-                    <div class="form-group">
-                        <label for="deliveryoption">Delivery Option</label>
-                        <select class="form-control form-control-sm" id="deliveryoption" name="deliveryoption">
-                            <option value=""> No filter </option>
-                            <option value="super fast"> Super fast </option>
-                            <option value="fast"> Fast </option>
-                            <option value="normal"> Normal </option>
-                        </select>
-                    </div>
-
-                    <!-- Format options -->
-                    <div class="form-group">
-                        <label for="format">Format</label>
-                        <select class="form-control form-control-sm" id="format" name="format">
-                            <option value=""> No filter </option>
-                            <option value="audiobook"> Audiobook </option>
-                            <option value="paperback"> Paperback </option>
-                            <option value="hardcover"> Hardcover </option>
-                        </select>
+                        <h4>Book search</h4>
+                        <label class="col-form-label" for="titlesearch">Title</label>
+                        <input class="form-control" id="titlesearch" type="text" name="title" placeholder="Search for title" />
                     </div>
 
                     <!-- Price category options -->
@@ -102,61 +59,153 @@
                             <option value="70-80"> 70 - 80 € </option>
                             <option value="80-90"> 80 - 90 € </option>
                             <option value="90-100"> 90 - 100 € </option>
-                            <option value="100-110"> 100 - 110 € </option>
+                            <option value="100-1000"> über 100 € </option>
                         </select>
                     </div>
 
-                    <!-- Authors -->
-                    Authors
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="authors" value="Paul Weissburg">
-                            Paul Weissburg
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="authors" value="Tim Levins">
-                            Tim Levins
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="authors" value="Kyle Mills">
-                            Kyle Mills
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="authors" value="Max Mustermann">
-                            Max Mustermann
-                        </label>
+                    <!-- Delivery options -->
+                    <div class="form-group">
+                        <label for="deliveryoption">Delivery Option</label>
+                        <select class="form-control form-control-sm" id="deliveryoption" name="deliveryoption">
+                            <option value=""> No filter </option>
+                            <option value="Super Fast"> Super Fast </option>
+                            <option value="Fast"> Fast </option>
+                            <option value="Normal"> Normal </option>
+                        </select>
                     </div>
 
-                    <!-- Release date -->
+                    <!-- Format options -->
+                    <div class="form-group">
+                        <label for="format">Format</label>
+                        <select class="form-control form-control-sm" id="format" name="format">
+                            <option value=""> No filter </option>
+                            <option value="Audiobook"> Audiobook </option>
+                            <option value="Paperback"> Paperback </option>
+                            <option value="Hardcover"> Hardcover </option>
+                        </select>
+                    </div>
+
+                    <!-- Published date -->
                     <div class="form-group">
                         <label class="col-form-label" for="publishedDate">Published date</label>
                         <input class="form-control" id="publishedDate" type="text" name="publishedDate" placeholder="yyyy-mm-dd" />
                     </div>
 
-                    <button class="btn btn-default" type="submit">Search</button>
+                    <!-- Categories -->
+                    <div class="form-group">
+                        <label for="categories">Categories</label>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="Horror">
+                                Horror
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="Adventure">
+                                Adventure
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="Action">
+                                Action
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="Fiction">
+                                Fiction
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="Fantasy">
+                                Fantasy
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="Mystery">
+                                Mystery
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="Thriller">
+                                Thriller
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="Science">
+                                Science
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="Technology">
+                                Technology
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="Computers">
+                                Computers
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="Internet">
+                                Internet
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="Politics">
+                                Politics
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="History">
+                                History
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="Romance">
+                                Romance
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="categories" value="Sports">
+                                Sports
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <button class="btn btn-default" id="searchbutton" type="submit">Search</button>
                 </form>
 
             </div>
         </div>
 
-        <div class="main">
-            <h1>Here are the results</h1>
-
+        <div class="main" id="main">
+            <div id="results">
+                <!-- Dynamically generated content -->
+            </div>
         </div>
 
     </div>
 
 
     <!-- Optional JavaScript for bootstrap-->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <script src="./scripts/external/popper.min.js"></script>
+    <script src="./scripts/external/bootstrap.min.js"></script>
 </body>
 
 </html>
