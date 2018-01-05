@@ -26,15 +26,24 @@
             <!-- Login form -->
             <form id="loginForm" action="/login" method="post">
                 <div class="form-group dynamic-signin">
+                    <h2 class="welcomeText">Welcome to your book searching experience!</h2>
+                    <h3 class="welcomeText">Please sign in to get started.</h3>
                     <input class="form-control login-form" id="username" type="text" name="username" placeholder="Username" />
                     <input class="form-control login-form" id="password" type="password" name="password" placeholder="Password" />
-                    <button class="btn btn-default login-form-button" id="loginbutton" type="submit" name="commit">Sign in</button>
+                    <button class="btn btn-default login-form-button" id="loginbutton" type="submit">Sign in</button>
                 </div>
             </form>
+
+            <div id="loggedInHeader">
+                <div id="loggedInAs"></div>
+                <button class="btn btn-default login-form-button" id="showFavoritesButton" type="submit">My Favorites</button>
+                <button class='btn btn-default login-form-button' id='logoutButton' type='submit'>Logout</button>
+            </div>
         </header>
 
-        <div class="aside aside-left">
+        <div class="aside aside-left" id="hideOnStartup-left">
             <div class="search">
+
                 <!-- Search form -->
                 <form id="searchForm" action="/search" method="get">
                     <!-- Text search -->
@@ -68,9 +77,9 @@
                         <label for="deliveryoption">Delivery Option</label>
                         <select class="form-control form-control-sm" id="deliveryoption" name="deliveryoption">
                             <option value=""> No filter </option>
-                            <option value="Super Fast"> Super Fast </option>
-                            <option value="Fast"> Fast </option>
-                            <option value="Normal"> Normal </option>
+                            <option value="super"> Super Fast </option>
+                            <option value="fast"> Fast </option>
+                            <option value="normal"> Normal </option>
                         </select>
                     </div>
 
@@ -102,74 +111,38 @@
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Adventure">
-                                Adventure
+                                <input class="form-check-input" type="checkbox" name="categories" value="Adventure,Action">
+                                Adventure & Action
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Action">
-                                Action
+                                <input class="form-check-input" type="checkbox" name="categories" value="Fiction,Fantasy">
+                                Fiction & Fantasy
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Fiction">
-                                Fiction
+                                <input class="form-check-input" type="checkbox" name="categories" value="Mystery,Thriller">
+                                Mystery & Thriller
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Fantasy">
-                                Fantasy
+                                <input class="form-check-input" type="checkbox" name="categories" value="Science,Technology">
+                                Science & Technology
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Mystery">
-                                Mystery
+                                <input class="form-check-input" type="checkbox" name="categories" value="Computers,Internet">
+                                Computers & Internet
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Thriller">
-                                Thriller
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Science">
-                                Science
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Technology">
-                                Technology
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Computers">
-                                Computers
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Internet">
-                                Internet
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Politics">
-                                Politics
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="History">
-                                History
+                                <input class="form-check-input" type="checkbox" name="categories" value="Politics,History">
+                                Politics & History
                             </label>
                         </div>
                         <div class="form-check">
@@ -193,7 +166,7 @@
             </div>
         </div>
 
-        <div class="main" id="main">
+        <div class="main">
             <div id="results">
                 <!-- Dynamically generated content -->
             </div>

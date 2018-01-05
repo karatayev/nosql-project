@@ -17,11 +17,19 @@
     justify-content: flex-start;
 }
 
+.welcomeText {
+    color: white;
+}
+
 #loginForm {
     order: 20;
     flex: 4 0px;
     margin-top: 30px;
     align-self: center;
+}
+
+#loggedInHeader {
+    display: none;
 }
 
 .login-form {
@@ -48,6 +56,10 @@
     align-items: flex-start;
 }
 
+#hideOnStartup-left {
+    display: none;
+}
+
 label {
     font-size: small;
 }
@@ -57,47 +69,52 @@ label {
 }
 
 .main {
+    margin-left: 20px;
     padding: 20px 0;
     display: flex;
     justify-content: flex-start;
 }
 
-
-.resultItem {
+.resultItems {
     text-align: left;
     margin-top: 30px;
 }
 
-.subResultItem {
+.resultItem {
     margin: 0;
 }
 
-#title {
+.title {
     font-size: x-large;
 }
 
-#publishedDate {
+.publishedDate {
     font-size: small;
 }
 
-#authors {
+.authors {
     font-size: small;
 }
 
-#categories {
+.categories {
     font-size: small;
 }
 
-#format {
+.format {
     font-size: small;
 }
 
-#price {
+.price {
     color: red;
 }
 
-#deliveryoption {
+.deliveryoption {
     font-size: small;
+}
+
+.favorite {
+    font-size: small;
+    color: purple;
 }
 
 @media all {
