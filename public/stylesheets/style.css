@@ -90,11 +90,15 @@ label {
 }
 
 .publishedDate {
-    font-size: small;
+    font-size: x-small;
+    font-weight: normal;
+    margin-left: 10px;
 }
 
 .authors {
     font-size: small;
+    font-weight: normal;
+    margin-bottom: 20px;
 }
 
 .categories {
@@ -103,23 +107,24 @@ label {
 
 .format {
     font-size: small;
+    font-weight: normal;
 }
 
 .price {
     color: red;
+    margin-bottom: 10px;
 }
 
 .deliveryoption {
     font-size: small;
-}
-
-.authors {
-    font-size: small;
+    font-weight: normal;
+    margin-bottom: 20px;
 }
 
 .favorite {
     font-size: small;
     color: purple;
+    margin-left: 30px;
 }
 
 .counters {

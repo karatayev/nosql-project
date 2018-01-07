@@ -388,16 +388,25 @@ $(document).ready(function() {
 
                     $("#results")
                         .append(
-                            "<div class='resultItems'>" +
+                            "<div class='resultItems d-flex bd-highlight mb-3'>" +
+                        "<div class='p-2 bd-highlight'>" +
+                            "<div class='resultItem image'>" + "<img src='" + value.book.image + "' alt='NO IMAGE'>" + "</div>" +
+                        "</div>" +
+                        "<div class='align-self-start bd-highlight'>" +
+                    "<div class='d-flex bd-highlight'>" +
                             "<div class='resultItem title'>" + value.book.title + "</div>" +
-                            "<div class='resultItem publishedDate'>" + value.book.publishedDate + "</div>" +
+                            "<div class='resultItem publishedDate align-self-center'>" + value.book.publishedDate + "</div>" +
+                    "</div>" +
                             "<div class='resultItem authors'>" + "von " + value.book.authors + "</div>" +
-                            "<div class='resultItem categories'>" + value.book.categories + "</div>" +
                             "<div class='resultItem format'>" + value.book.format + "</div>" +
                             "<div class='resultItem price'>" + "EUR " + getDecimalNumber(value.book.price, 2) + "</div>" +
                             "<div class='resultItem deliveryoption'>" + "Delivery Option: " + value.book.deliveryoption + "</div>" +
-                            "<div class='resultItem image'>" + "<img src='" + value.book.image + "' alt='NO IMAGE'>" + "</div>" +
+                            "<div class='resultItem categories'>" + value.book.categories + "</div>" +
+
+                        "</div>" +
+                        "<div class='p-2 bd-highlight'>" +
                             "<div class='resultItem favorite'>" + "<div class='addOrDeletefavorite' id='" + value.id + "'>" + insertFavoriteImage(value.id) + "</div></div>" +
+                        "</div>" +
                             "<hr>" +
                             "</div>"
                         );
