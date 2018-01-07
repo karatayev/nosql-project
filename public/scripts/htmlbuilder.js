@@ -5,7 +5,6 @@ $(window).on('load', function(){
         var loginName = data.name;
 
         if(loginName) {
-            // clearContent("#header")
             $("#loginForm").hide();
             $("#loggedInAs").append("Logged in as: " + loginName);
             $("#loggedInHeader:hidden").show();
@@ -31,7 +30,6 @@ $(document).ready(function() {
                 var loginName = data.name;
 
                 if(loginName) {
-                    // clearContent("#header")
                     $("#username").val("");
                     $("#password").val("");
                     $("#loginForm").hide();
@@ -99,7 +97,8 @@ $(document).ready(function() {
                     .done(function(bookdata) {
                         $("#results")
                             .append(
-                                "<div class='resultItems d-flex bd-highlight mb-3'>" +
+                                "<div class='separator'>" +
+                                "<div class='resultItems favoriteResults d-flex bd-highlight mb-3'>" +
                                 "<div class='p-2 bd-highlight'>" +
                                 "<div class='resultItem image'>" + "<img src='" + bookdata[0]._source.image + "' alt='NO IMAGE'>" + "</div>" +
                                 "</div>" +
@@ -117,6 +116,7 @@ $(document).ready(function() {
                                 "<div class='p-2 bd-highlight'>" +
                                 "<div class='resultItem favorite'>" + "<div class='addOrDeletefavorite' id='" + bookdata[0]._id + "'>" + insertFavoriteImage(bookdata[0]._id) + "</div></div>" +
                                 "</div>" +
+                                "</div>" +
                                 "<hr>" +
                                 "</div>"
                             );
@@ -129,7 +129,7 @@ $(document).ready(function() {
 
 // ADD or REMOVE A FAVORITE
 $(document).ready(function() {
-    $(".wrapper").on("click", ".main #results .resultItems .favorite .addOrDeletefavorite", function() {
+    $(".wrapper").on("click", ".main #results .resultItems .p-2 .favorite .addOrDeletefavorite", function() {
         var favId = this.id;
         var idTag = "#" + favId;
         var formData = {"bookID" : favId};
@@ -152,9 +152,9 @@ $(document).ready(function() {
 
             // delete or add from/to favorites
             if(isFavorite === true) {
-                //TODO set pic to NO FAV
-                if($(idTag).parent().parent().hasClass("favoriteResults")) {
-                    $(idTag).parent().parent().empty();
+                // console.log($(idTag).parent().parent().parent().parent());
+                if($(idTag).parent().parent().parent().hasClass("favoriteResults")) {
+                    $(idTag).parent().parent().parent().parent().empty();
                 } else {
                     clearContent(idTag);
                     $(idTag).append("<img class='star' src='./images/star_empty.png' alt='fav'>");
@@ -165,7 +165,6 @@ $(document).ready(function() {
                     data: formData
                 });
             } else {
-                //TODO set pic to  FAV
                 clearContent(idTag);
                 $(idTag).append("<img class='star' src='./images/star_yellow.png' alt='fav'>");
                 $.ajax({
@@ -177,7 +176,6 @@ $(document).ready(function() {
         });
     });
 });
-
 
 function insertFavoriteImage(id) {
     var idTag = "#" + id;
@@ -396,6 +394,7 @@ $(document).ready(function() {
 
                     $("#results")
                         .append(
+                            "<div class='separator'>" +
                             "<div class='resultItems d-flex bd-highlight mb-3'>" +
                             "<div class='p-2 bd-highlight'>" +
                             "<div class='resultItem image'>" + "<img src='" + value.book.image + "' alt='NO IMAGE'>" + "</div>" +
@@ -413,6 +412,7 @@ $(document).ready(function() {
                             "</div>" +
                             "<div class='p-2 bd-highlight'>" +
                             "<div class='resultItem favorite'>" + "<div class='addOrDeletefavorite' id='" + value.id + "'>" + insertFavoriteImage(value.id) + "</div></div>" +
+                            "</div>" +
                             "</div>" +
                             "<hr>" +
                             "</div>"
