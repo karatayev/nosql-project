@@ -99,16 +99,24 @@ $(document).ready(function() {
                     .done(function(bookdata) {
                         $("#results")
                             .append(
-                                "<div class='resultItems favoriteResults'>" +
+                                "<div class='resultItems d-flex bd-highlight mb-3'>" +
+                                "<div class='p-2 bd-highlight'>" +
+                                "<div class='resultItem image'>" + "<img src='" + bookdata[0]._source.image + "' alt='NO IMAGE'>" + "</div>" +
+                                "</div>" +
+                                "<div class='align-self-start bd-highlight'>" +
+                                "<div class='d-flex bd-highlight'>" +
                                 "<div class='resultItem title'>" + bookdata[0]._source.title + "</div>" +
-                                "<div class='resultItem publishedDate'>" + bookdata[0]._source.publishedDate + "</div>" +
+                                "<div class='resultItem publishedDate align-self-center'>" + bookdata[0]._source.publishedDate + "</div>" +
+                                "</div>" +
                                 "<div class='resultItem authors'>" + "von " + bookdata[0]._source.authors + "</div>" +
-                                "<div class='resultItem categories'>" + bookdata[0]._source.categories + "</div>" +
                                 "<div class='resultItem format'>" + bookdata[0]._source.format + "</div>" +
                                 "<div class='resultItem price'>" + "EUR " + getDecimalNumber(bookdata[0]._source.price, 2) + "</div>" +
                                 "<div class='resultItem deliveryoption'>" + "Delivery Option: " + bookdata[0]._source.deliveryoption + "</div>" +
-                                "<div class='resultItem image'>" + "<img src='" + bookdata[0]._source.image + "' alt='NO IMAGE'>" + "</div>" +
+                                "<div class='resultItem categories'>" + bookdata[0]._source.categories + "</div>" +
+                                "</div>" +
+                                "<div class='p-2 bd-highlight'>" +
                                 "<div class='resultItem favorite'>" + "<div class='addOrDeletefavorite' id='" + bookdata[0]._id + "'>" + insertFavoriteImage(bookdata[0]._id) + "</div></div>" +
+                                "</div>" +
                                 "<hr>" +
                                 "</div>"
                             );
@@ -389,24 +397,23 @@ $(document).ready(function() {
                     $("#results")
                         .append(
                             "<div class='resultItems d-flex bd-highlight mb-3'>" +
-                        "<div class='p-2 bd-highlight'>" +
+                            "<div class='p-2 bd-highlight'>" +
                             "<div class='resultItem image'>" + "<img src='" + value.book.image + "' alt='NO IMAGE'>" + "</div>" +
-                        "</div>" +
-                        "<div class='align-self-start bd-highlight'>" +
-                    "<div class='d-flex bd-highlight'>" +
+                            "</div>" +
+                            "<div class='align-self-start bd-highlight'>" +
+                            "<div class='d-flex bd-highlight'>" +
                             "<div class='resultItem title'>" + value.book.title + "</div>" +
                             "<div class='resultItem publishedDate align-self-center'>" + value.book.publishedDate + "</div>" +
-                    "</div>" +
+                            "</div>" +
                             "<div class='resultItem authors'>" + "von " + value.book.authors + "</div>" +
                             "<div class='resultItem format'>" + value.book.format + "</div>" +
                             "<div class='resultItem price'>" + "EUR " + getDecimalNumber(value.book.price, 2) + "</div>" +
                             "<div class='resultItem deliveryoption'>" + "Delivery Option: " + value.book.deliveryoption + "</div>" +
                             "<div class='resultItem categories'>" + value.book.categories + "</div>" +
-
-                        "</div>" +
-                        "<div class='p-2 bd-highlight'>" +
+                            "</div>" +
+                            "<div class='p-2 bd-highlight'>" +
                             "<div class='resultItem favorite'>" + "<div class='addOrDeletefavorite' id='" + value.id + "'>" + insertFavoriteImage(value.id) + "</div></div>" +
-                        "</div>" +
+                            "</div>" +
                             "<hr>" +
                             "</div>"
                         );
