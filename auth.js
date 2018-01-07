@@ -61,6 +61,7 @@ exports.login = (username, password) => {
                     reject(new Error('invalid credentials'));
                 }
             }).catch((err) => {
+                console.error(err.message);
                 reject(new Error('invalid credentials'));
             });
         });
