@@ -19,6 +19,7 @@
 
 .welcomeText {
     color: white;
+    text-align: center;
 }
 
 #loginForm {
@@ -112,9 +113,40 @@ label {
     font-size: small;
 }
 
+.authors {
+    font-size: small;
+}
+
 .favorite {
     font-size: small;
     color: purple;
+}
+
+.counters {
+    font-size: x-small;
+    color: red;
+}
+
+#searchedFor {
+    text-align: left;
+    font-size: small;
+}
+
+#noResults {
+    text-align: left;
+    font-size: small;
+}
+
+#myFavorites {
+    text-align: left;
+}
+
+h2 {
+    text-align: left;
+}
+
+.star {
+    height: 20px;
 }
 
 @media all {

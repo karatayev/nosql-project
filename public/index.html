@@ -57,18 +57,18 @@
                     <div class="form-group">
                         <label for="pricecategory">Price category</label>
                         <select class="form-control form-control-sm" id="pricecategory" name="pricecategory">
-                            <option value=""> No filter </option>
-                            <option value="0-10"> 0 - 10 € </option>
-                            <option value="10-20"> 10 - 20 € </option>
-                            <option value="20-30"> 20 - 30 € </option>
-                            <option value="30-40"> 30 - 40 € </option>
-                            <option value="40-50"> 40 - 50 € </option>
-                            <option value="50-60"> 50 - 60 € </option>
-                            <option value="60-70"> 60 - 70 € </option>
-                            <option value="70-80"> 70 - 80 € </option>
-                            <option value="80-90"> 80 - 90 € </option>
-                            <option value="90-100"> 90 - 100 € </option>
-                            <option value="100-1000"> über 100 € </option>
+                            <option id="noPricecategoryOption" value=""> No filter </option>
+                            <option id="0-10" value="0-10"> 0 - 10 € </option>
+                            <option id="10-20" value="10-20"> 10 - 20 € </option>
+                            <option id="20-30" value="20-30"> 20 - 30 € </option>
+                            <option id="30-40" value="30-40"> 30 - 40 € </option>
+                            <option id="40-50" value="40-50"> 40 - 50 € </option>
+                            <option id="50-60" value="50-60"> 50 - 60 € </option>
+                            <option id="60-70" value="60-70"> 60 - 70 € </option>
+                            <option id="70-80" value="70-80"> 70 - 80 € </option>
+                            <option id="80-90" value="80-90"> 80 - 90 € </option>
+                            <option id="90-100" value="90-100"> 90 - 100 € </option>
+                            <option id="100-1000" value="100-1000"> über 100 € </option>
                         </select>
                     </div>
 
@@ -76,10 +76,10 @@
                     <div class="form-group">
                         <label for="deliveryoption">Delivery Option</label>
                         <select class="form-control form-control-sm" id="deliveryoption" name="deliveryoption">
-                            <option value=""> No filter </option>
-                            <option value="super"> Super Fast </option>
-                            <option value="fast"> Fast </option>
-                            <option value="normal"> Normal </option>
+                            <option id="noDeliveryOptionFilter" value=""> No filter </option>
+                            <option id="super" value="super"> Super Fast </option>
+                            <option id="fast" value="fast"> Fast </option>
+                            <option id="normal" value="normal"> Normal </option>
                         </select>
                     </div>
 
@@ -87,10 +87,10 @@
                     <div class="form-group">
                         <label for="format">Format</label>
                         <select class="form-control form-control-sm" id="format" name="format">
-                            <option value=""> No filter </option>
-                            <option value="Audiobook"> Audiobook </option>
-                            <option value="Paperback"> Paperback </option>
-                            <option value="Hardcover"> Hardcover </option>
+                            <option id="noFormatFilter" value=""> No filter </option>
+                            <option id="audiobook" value="Audiobook"> Audiobook </option>
+                            <option id="paperback" value="Paperback"> Paperback </option>
+                            <option id="hardcover" value="Hardcover"> Hardcover </option>
                         </select>
                     </div>
 
@@ -102,63 +102,67 @@
 
                     <!-- Categories -->
                     <div class="form-group">
-                        <label for="categories">Categories</label>
+                        <label class="categories" for="categories">Categories</label>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Horror">
+                                <input class="form-check-input category" type="checkbox" name="categories" value="Horror">
                                 Horror
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Adventure,Action">
+                                <input class="form-check-input category" type="checkbox" name="categories" value="Adventure,Action">
                                 Adventure & Action
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Fiction,Fantasy">
+                                <input class="form-check-input category" type="checkbox" name="categories" value="Fiction,Fantasy">
                                 Fiction & Fantasy
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Mystery,Thriller">
+                                <input class="form-check-input category" type="checkbox" name="categories" value="Mystery,Thriller">
                                 Mystery & Thriller
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Science,Technology">
+                                <input class="form-check-input category" type="checkbox" name="categories" value="Science,Technology">
                                 Science & Technology
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Computers,Internet">
+                                <input class="form-check-input category" type="checkbox" name="categories" value="Computers,Internet">
                                 Computers & Internet
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Politics,History">
+                                <input class="form-check-input category" type="checkbox" name="categories" value="Politics,History">
                                 Politics & History
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Romance">
+                                <input class="form-check-input category" type="checkbox" name="categories" value="Romance">
                                 Romance
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="categories" value="Sports">
+                                <input class="form-check-input category" type="checkbox" name="categories" value="Sports">
                                 Sports
                             </label>
                         </div>
                     </div>
 
+                    <!-- Authors -->
+                    <div class="form-group" id="authorList">
+                        <!-- dynamically loaded authors -->
+                    </div>
 
                     <button class="btn btn-default" id="searchbutton" type="submit">Search</button>
                 </form>
