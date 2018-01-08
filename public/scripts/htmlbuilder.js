@@ -501,6 +501,13 @@ $(document).ready(function () {
                     .done(function (data) {
                         clearContent('.counters');
 
+                        // Show message if there is no conn to ES
+                        if (data.message == "No Living connections") {
+                            clearContent('#results');
+                            $('#results')
+                                .append("No living connection to DB! Please check, if ElasticSearch is up.");
+                        }
+
                         // prices
                         $('#noPricecategoryOption').append("<div class='counters'> (" + getSumOfAllItems(data.aggs.prices.buckets, 'noPricecategoryOption') + ') </div>');
                         $('#0-10').append("<div class='counters'> (" + getSumOfOnePrice(data.aggs.prices.buckets, '0-10') + ') </div>');
