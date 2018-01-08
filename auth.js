@@ -7,7 +7,7 @@ const sqlite3 = require('sqlite3').verbose();
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 
-exports.ERROR_UNAUTHENTICATED_REQUEST = 'TODO';
+exports.ERROR_UNAUTHENTICATED_REQUEST = 'unauthenticated request';
 
 // open sessions, list of <token>: <username>
 let sessions = {};
