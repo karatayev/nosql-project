@@ -1,3 +1,9 @@
+/** @module htmlbuilder */
+
+/**
+ * Hides and shows content depending on login status.
+ * @param {string} loginName - User which is logged in.
+ */
 function showHideHelper (loginName) {
     $('#loginForm').hide();
     $('#loggedInAs').append('Logged in as: ' + loginName);
@@ -6,13 +12,18 @@ function showHideHelper (loginName) {
     getMostAuthorsInitial();
 }
 
+/**
+ * Creates a checkbox list of the ten most appearing authors.
+ */
 function getMostAuthorsInitial () {
+    // Get all DB data which includes author buckets.
     $.get('/search')
         .done(function (data) {
             $('#authorList')
                 .append(
-                    "<label class='authors' for='authors'>Authors</label>"
+                    "<label class='author' for='authors'>Authors</label>"
                 );
+            // Create checkboxes and append them at the end of the filter list.
             $.each(data.aggs.authors.buckets, function (index, value) {
                 $('#authorList')
                     .append(
@@ -27,8 +38,21 @@ function getMostAuthorsInitial () {
         });
 }
 
-// create list of books
-function appendResults (data, id) {
+/**
+ * Creates a book item and add it to the results tag.
+ * @param {Object} data - Dataset from one book.
+ * @param {string} data.image - Books image URL.
+ * @param {string} data.title - Books title.
+ * @param {string} data.publishedDate - Books published date.
+ * @param {Array.<string>} data.authors - Books authors.
+ * @param {string} data.format - Books format.
+ * @param {string} data.price - Books selling price.
+ * @param {string} data.deliveryoption - Books delivery option.
+ * @param {Array.<string>} data.categories - Books categories.
+ * @param {string} id - Books ID.
+ * @param {string} calledFrom - Called from either show favorites (showFavorites) or book results (booksearch).
+ */
+function appendResults (data, id, calledFrom) {
     $('#results')
         .append(
             "<div class='separator'>" +
@@ -48,7 +72,7 @@ function appendResults (data, id) {
             "<div class='resultItem categories'>" + data.categories + '</div>' +
             '</div>' +
             "<div class='p-2 bd-highlight'>" +
-            "<div class='resultItem favorite'>" + "<div class='addOrDeletefavorite' id='" + id + "'>" + insertFavoriteImage(id) + '</div></div>' +
+            "<div class='resultItem favorite'>" + "<div class='addOrDeleteFavorite " + calledFrom + "' id='" + id + "'>" + insertFavoriteImage(id) + '</div></div>' +
             '</div>' +
             '</div>' +
             '<hr>' +
@@ -56,6 +80,10 @@ function appendResults (data, id) {
         );
 }
 
+/**
+ * Shows right favorite image, whether it is a favorite or not.
+ * @param {string} id - Books ID.
+ */
 function insertFavoriteImage (id) {
     var idTag = '#' + id;
     var favoritesArray = [];
@@ -84,8 +112,19 @@ function insertFavoriteImage (id) {
             }
         });
 }
-
-// create info text about the search details
+/**
+ * Creates info text about the what the user has entered to search books.
+ * @param {Object} formData - Details for the info text.
+ * @param {string} formData.title - Prints the inserted title.
+ * @param {string} formData.price_min - Prints the inserted minimum price.
+ * @param {string} formData.price_max - Prints the inserted maximum price.
+ * @param {string} data.published_Date - Prints the inserted publish date.
+ * @param {string} data.format - Prints the inserted format.
+ * @param {string} data.delivery_option - Prints the inserted delivery option.
+ * @param {Array.<string>} data.categories - Prints the inserted categories.
+ * @param {Array.<string>} data.authors - Prints the inserted authors.
+ * @returns {string} - Concatenated string of all requested data.
+ */
 function searchedFor (formData) {
     let searchedFor = '';
 
@@ -148,6 +187,11 @@ function searchedFor (formData) {
     return searchedFor;
 }
 
+/**
+ * Counts the number of all items within the ES buckets.
+ * @param {string} data - All ES buckets for one item.
+ * @returns {number} - Sum of all items
+ */
 function getSumOfAllItems (data) {
     let sum = 0;
 
@@ -158,6 +202,12 @@ function getSumOfAllItems (data) {
     return sum;
 }
 
+/**
+ * Counts the number of all items with a specific price.
+ * @param {string} data - All ES buckets from the prices.
+ * @param {string} item - String with searched min and max price included.
+ * @returns {number} - Sum of all items with specific price.
+ */
 function getSumOfOnePrice (data, item) {
     let sum = 0;
     let minAndMaxPrice = extractPricesFromString(item);
@@ -173,6 +223,12 @@ function getSumOfOnePrice (data, item) {
     return sum;
 }
 
+/**
+ * Counts the number of all items with a specific format.
+ * @param {string} data - All ES buckets from the formats.
+ * @param {string} item - String with searched format included.
+ * @returns {number} - Sum of all items with specific format.
+ */
 function getSumOfOneFormat (data, item) {
     let sum = 0;
 
@@ -185,31 +241,51 @@ function getSumOfOneFormat (data, item) {
     return sum;
 }
 
-// get the min and max price out of option string
+/**
+ * Get the min and max price out of an option string.
+ * @param {string} optionString - String with searched min and max price included.
+ * @returns {Array.<string>} - Array with min price at first and max price at second position.
+ */
 function extractPricesFromString (optionString) {
     var m = /(\d+)-(\d+)/.exec(optionString);
 
     return m ? [+m[1], +m[2]] : null;
 }
 
+/**
+ * Clears the submitted html-tag and all child tags.
+ * @param {string} tag - Tag which have to be cleared.
+ */
 function clearContent (tag) {
     $(tag).empty();
 }
 
-// minOrMax 0=min 1=max
+/**
+ * Get the min or max price value out of a string.
+ * @param {string} priceMinAndMaxString - String with searched min and max price.
+ * @param {number} minOrMax - Whether 0 for min price or 1 for max price.
+ * @returns {string} - Returns min or max price.
+ */
 function getMinOrMaxPriceOutOfString (priceMinAndMaxString, minOrMax) {
     return priceMinAndMaxString.split('-')[minOrMax];
 }
 
+/**
+ * Create a string with comma separated option values.
+ * @param {string} inputName - Name of the checkbox option.
+ * @returns {string} - Comma separated list.
+ */
 function getCommaSeparatedList (inputName) {
     var arrayOfItems = [];
     var commaSeparatedList = '';
     var comma = ',';
 
+    // Get each option which is checked.
     $.each($('input[name=' + inputName + ']:checked'), function () {
         arrayOfItems.push($(this).val());
     });
 
+    // If there are checked elements, add them to a string.
     if (arrayOfItems.length >= 1) {
         arrayOfItems.forEach(item => {
             if (commaSeparatedList === '') {
@@ -223,11 +299,17 @@ function getCommaSeparatedList (inputName) {
     return commaSeparatedList;
 }
 
+/**
+ * Get a number with x decimals.
+ * @param {number} value - Number with unknown number of decimals.
+ * @param {number} decimal - Set number of decimals.
+ * @returns {number} - Number with specified number of decimals.
+ */
 function getDecimalNumber (value, decimal) {
     return value.toFixed(decimal);
 }
 
-// LOGIN
+// Login
 $(document).ready(function () {
     $('#loginForm').submit(function (event) {
         var formData = {
@@ -252,7 +334,7 @@ $(document).ready(function () {
     });
 });
 
-// CHECK IF LOGGED IN, IN CASE OF PAGE REFRESH
+// Check if user is already logged in, in case of page refresh
 $(window).on('load', function () {
     $.get('/favorites')
         .done(function (data) {
@@ -264,7 +346,7 @@ $(window).on('load', function () {
         });
 });
 
-// LOGOUT
+// Logout
 $(document).ready(function () {
     $('#header').on('click', 'div #logoutButton', function () {
         clearContent('#results');
@@ -275,7 +357,7 @@ $(document).ready(function () {
     });
 });
 
-// SHOW FAVORITES
+// Show favorites
 $(document).ready(function () {
     $('#header').on('click', 'div #showFavoritesButton', function () {
         clearContent('#results');
@@ -293,7 +375,7 @@ $(document).ready(function () {
 
                         $.get('/book', formData)
                             .done(function (bookdata) {
-                                appendResults(bookdata[0]._source, bookdata[0]._id);
+                                appendResults(bookdata[0]._source, bookdata[0]._id, 'showFavorites');
                             });
                     });
                 }
@@ -301,9 +383,9 @@ $(document).ready(function () {
     });
 });
 
-// ADD or REMOVE A FAVORITE
+// Add or remove a favorite
 $(document).ready(function () {
-    $('.wrapper').on('click', '.main #results .resultItems .p-2 .favorite .addOrDeletefavorite', function () {
+    $('.wrapper').on('click', '.main #results .resultItems .p-2 .favorite .addOrDeleteFavorite', function (event) {
         var favId = this.id;
         var idTag = '#' + favId;
         var formData = {'bookID': favId};
@@ -324,10 +406,9 @@ $(document).ready(function () {
                     }
                 }
 
-                // delete or add from/to favorites
+                // Delete or add from/to favorites.
                 if (isFavorite === true) {
-                // console.log($(idTag).parent().parent().parent().parent());
-                    if ($(idTag).parent().parent().parent().hasClass('favoriteResults')) {
+                    if ($(idTag).hasClass('showFavorites')) {
                         $(idTag).parent().parent().parent().parent().empty();
                     } else {
                         clearContent(idTag);
@@ -348,6 +429,7 @@ $(document).ready(function () {
                     });
                 }
             });
+        event.preventDefault();
     });
 });
 
@@ -417,8 +499,8 @@ $(document).ready(function () {
                 // Get requested books
                 $.get('/search', formData)
                     .done(function (data) {
-                        // update filters to fit search results
                         clearContent('.counters');
+
                         // prices
                         $('#noPricecategoryOption').append("<div class='counters'> (" + getSumOfAllItems(data.aggs.prices.buckets, 'noPricecategoryOption') + ') </div>');
                         $('#0-10').append("<div class='counters'> (" + getSumOfOnePrice(data.aggs.prices.buckets, '0-10') + ') </div>');
@@ -443,7 +525,7 @@ $(document).ready(function () {
                         clearContent('#authorList');
                         $('#authorList')
                             .append(
-                                "<label class='authors' for='authors'>Authors</label>"
+                                "<label class='author' for='authors'>Authors</label>"
                             );
                         $.each(data.aggs.authors.buckets, function (index, value) {
                             $('#authorList')
@@ -463,8 +545,9 @@ $(document).ready(function () {
                             "<h2 id='searchResults'>Search results</h2>" +
                             "<div id='searchedFor'>You searched for: " + searchedForFormData + '</div>'
                         );
+                        // put in new book data
                         $.each(data.hits, function (index, value) {
-                            appendResults(value.book, value.id);
+                            appendResults(value.book, value.id, 'booksearch');
                         });
 
                         if ($('.resultItems').text().length === 0) {
@@ -478,7 +561,7 @@ $(document).ready(function () {
     });
 });
 
-// mark title search text on click
+// Mark title search text on click
 $(document).ready(function () {
     $('#titlesearch').on('click', function () {
         this.select();
