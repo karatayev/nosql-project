@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "scraper": "node ./scraper/scraper.js",
     "linter": "node ./node_modules/eslint/bin/eslint.js -c eslintrc.json public/scripts/htmlbuilder.js scraper/ *.js",
-    "documentation": "node ./node_modules/jsdoc/jsdoc.js . --destination documentation/"
+    "documentation": "node ./node_modules/jsdoc/jsdoc.js . ./public/scripts/htmlbuilder.js --destination documentation/"
   },
   "author": "",
   "license": "ISC",
