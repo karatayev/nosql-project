@@ -6,6 +6,7 @@
  */
 function showHideHelper (loginName) {
     $('#loginForm').hide();
+    clearContent('#loggedInAs');
     $('#loggedInAs').append('Logged in as: ' + loginName);
     $('#loggedInHeader:hidden').show();
     $('#hideOnStartup-left:hidden').show();
@@ -502,10 +503,10 @@ $(document).ready(function () {
                         clearContent('.counters');
 
                         // Show message if there is no conn to ES
-                        if (data.message == "No Living connections") {
+                        if (data.message === 'No Living connections') {
                             clearContent('#results');
                             $('#results')
-                                .append("No living connection to DB! Please check, if ElasticSearch is up.");
+                                .append('No living connection to DB! Please check, if ElasticSearch is up.');
                         }
 
                         // prices
